@@ -1,52 +1,69 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"reflect"
+)
+
+type Doctor struct {
+	number     int
+	actorName  string
+	companions []string
+}
+
+type Animal struct {
+	Name   string `max:"100"`
+	Origin string
+}
+
+type Bird struct {
+	Animal
+	SpeedKPH float32
+	CanFly   bool
+}
 
 func main() {
-	// Array
+	// ----Map----
 
-	grades := [3]int{11, 12, 32}
-	otherGrades := [...]int{1, 2, 3}
-	var students [3]string
-	fmt.Printf("Grades: %v\n", grades)
-	fmt.Printf("Other grades: %v\n", otherGrades)
-	students[0] = "Ion"
-	students[1] = "Vasile"
-	students[2] = "Adam"
-	fmt.Printf("Students: %v\n", students)
-	fmt.Printf("Students count: %v\n", len(students))
+	statePopulation := make(map[string]int)
+	statePopulation = map[string]int{
+		"Texas": 1234,
+		"NY":    3210,
+		"Ohio":  551,
+	}
 
-	a := [...]int{1, 2, 3}
-	b := &a // Pointer to a value
-	b[0] = 5
-	fmt.Println(a)
+	statePopulation["Georgia"] = 1101123
+	delete(statePopulation, "Georgia")
+
+	_, ok := statePopulation["Georgia"] // check if present
+
+	fmt.Println(statePopulation)
+	fmt.Println(statePopulation["NY"])
+	fmt.Println(ok)
+
+	// ----Struct----
+
+	aDoctor := Doctor{
+		number:    3,
+		actorName: "Josh Doe",
+		companions: []string{
+			"Ion Vasile",
+			"Maria Ioana",
+			"Petre",
+		},
+	}
+
+	fmt.Println(aDoctor.actorName)
+
+	// --- Embedding ---
+	b := Bird{}
+	b.Name = "Emu"
+	b.Origin = "Australia"
+	b.SpeedKPH = 48
+	b.CanFly = false
+
+	t := reflect.TypeOf(Animal{})
+	field, _ := t.FieldByName("Name")
 	fmt.Println(b)
-
-	//Slice
-
-	c := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-	d := c[:]   // slice of all elements
-	e := c[3:]  // slice from 4th element to end
-	f := c[:6]  // slice first 6 elements
-	g := c[3:6] // slice the 4th, 5th, and 6th elements
-	fmt.Println(c)
-	fmt.Println(d)
-	fmt.Println(e)
-	fmt.Println(f)
-	fmt.Println(g)
-
-	//h := make([]int, 3, 100)
-
-	var j []int
-	fmt.Println(j)
-	fmt.Printf("Length: %v\n", len(j))
-	fmt.Printf("Capacity: %v\n", cap(j))
-	j = append(j, []int{1, 2, 3, 4, 5}...)
-	fmt.Println(j)
-	fmt.Printf("Length: %v\n", len(j))
-	fmt.Printf("Capacity: %v\n", cap(j))
-
-	k := append(j[:2], j[3:]...)
-	fmt.Println(k)
-
+	fmt.Println(field.Tag)
 }
