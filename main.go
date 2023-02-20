@@ -35,6 +35,18 @@ func main() {
 	fmt.Println(f)
 	fmt.Println(g)
 
-	h := make([]int, 3, 100)
+	//h := make([]int, 3, 100)
+
+	var j []int
+	fmt.Println(j)
+	fmt.Printf("Length: %v\n", len(j))
+	fmt.Printf("Capacity: %v\n", cap(j))
+	j = append(j, []int{1, 2, 3, 4, 5}...)
+	fmt.Println(j)
+	fmt.Printf("Length: %v\n", len(j))
+	fmt.Printf("Capacity: %v\n", cap(j))
+
+	k := append(j[:2], j[3:]...)
+	fmt.Println(k)
 
 }
