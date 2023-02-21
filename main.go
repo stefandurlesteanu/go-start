@@ -1,69 +1,57 @@
 package main
 
-import (
-	"fmt"
-	"reflect"
-)
-
-type Doctor struct {
-	number     int
-	actorName  string
-	companions []string
-}
-
-type Animal struct {
-	Name   string `max:"100"`
-	Origin string
-}
-
-type Bird struct {
-	Animal
-	SpeedKPH float32
-	CanFly   bool
-}
+import "fmt"
 
 func main() {
-	// ----Map----
-
-	statePopulation := make(map[string]int)
-	statePopulation = map[string]int{
+	// ----- IF ----
+	statePopulation := map[string]int{
 		"Texas": 1234,
-		"NY":    3210,
-		"Ohio":  551,
+		"LA":    2345,
+		"NY":    3456,
 	}
 
-	statePopulation["Georgia"] = 1101123
-	delete(statePopulation, "Georgia")
-
-	_, ok := statePopulation["Georgia"] // check if present
-
-	fmt.Println(statePopulation)
-	fmt.Println(statePopulation["NY"])
-	fmt.Println(ok)
-
-	// ----Struct----
-
-	aDoctor := Doctor{
-		number:    3,
-		actorName: "Josh Doe",
-		companions: []string{
-			"Ion Vasile",
-			"Maria Ioana",
-			"Petre",
-		},
+	// Simple IF
+	if 1 > 0 {
+		fmt.Println("Always true!")
 	}
 
-	fmt.Println(aDoctor.actorName)
+	// Initializer IF statement
+	if pop, ok := statePopulation["Texas"]; ok {
+		fmt.Println(pop)
+	}
 
-	// --- Embedding ---
-	b := Bird{}
-	b.Name = "Emu"
-	b.Origin = "Australia"
-	b.SpeedKPH = 48
-	b.CanFly = false
+	// IF ELSE IF ELSE
+	if statePopulation["Texas"] == 112 {
+		fmt.Println("That is not true")
+	} else if statePopulation["NY"] == 3456 {
+		fmt.Println("That is true")
+	} else {
+		fmt.Println("Never get here")
+	}
 
-	t := reflect.TypeOf(Animal{})
-	field, _ := t.FieldByName("Name")
-	fmt.Println(b)
-	fmt.Println(field.Tag)
+	// ----- SWITCH -----
+	switch i := 2 + 3; i {
+	case 1, 5:
+		fmt.Println("One or Five")
+	case 2, 4, 6:
+		fmt.Println("Two, Four or Six")
+	default:
+		fmt.Println("Not in range")
+	}
+
+	//fallthrough && break
+	j := 10
+	switch {
+	case j <= 10:
+		fmt.Println("Less of equal to ten")
+		fallthrough
+	case j <= 20:
+		fmt.Println("Less or equal to twenty")
+		if j == 20 {
+			break
+		}
+		fmt.Println("This won't print")
+	default:
+		fmt.Println("Default")
+	}
 }
